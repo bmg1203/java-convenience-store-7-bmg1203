@@ -61,4 +61,17 @@ class ProductTest {
         assertThatThrownBy(() -> new Product(name, price, quantity, promotion))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void 수량_업데이트_테스트() {
+        //given
+        int originalQuantity = 10;
+        int quantity = 3;
+
+        //when
+        productWithPromotion.updateQuantity(3);
+
+        //then
+        assertThat(productWithPromotion.getQuantity()).isEqualTo(originalQuantity - quantity);
+    }
 }
