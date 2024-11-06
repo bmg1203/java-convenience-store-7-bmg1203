@@ -7,7 +7,7 @@ public class Product {
 
     private final String name;
     private final int price;
-    private final int quantity;
+    private int quantity;
     private final String promotion;
 
     public Product(String name, String price, String quantity, String promotion) {
@@ -57,5 +57,9 @@ public class Product {
 
     public boolean hasPromotion() {
         return promotion != null && !promotion.equals("null");
+    }
+
+    public void updateQuantity(int quantity) {
+        this.quantity -= quantity;
     }
 }
