@@ -2,6 +2,7 @@ package store.domain;
 
 import store.constants.ErrorMessage;
 import store.constants.NumberConstants;
+import store.utils.Parser;
 
 public class Product {
 
@@ -12,8 +13,8 @@ public class Product {
 
     public Product(String name, String price, String quantity, String promotion) {
         this.name = name;
-        this.price = validatePrice(parseToInt(price));
-        this.quantity = validateQuantity(parseToInt(quantity));
+        this.price = validatePrice(Parser.parseNumberToInt(price));
+        this.quantity = validateQuantity(Parser.parseNumberToInt(quantity));
         this.promotion = promotion;
     }
 
@@ -31,14 +32,6 @@ public class Product {
 
     public String getPromotion() {
         return promotion;
-    }
-
-    private int parseToInt(String str) {
-        try {
-            return Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(ErrorMessage.PRODUCT_ERROR.getMessage());
-        }
     }
 
     private int validateQuantity(int quantity) {
