@@ -59,6 +59,10 @@ public class Product {
         return promotion != null && !promotion.equals("null");
     }
 
+    public boolean hasQuantity(int quantity) {
+        return this.quantity >= quantity;
+    }
+
     public void updateQuantity(int quantity) {
         this.quantity -= quantity;
     }
