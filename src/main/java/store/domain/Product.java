@@ -55,7 +55,7 @@ public class Product {
         return price;
     }
 
-    public boolean hasPromition() {
+    public boolean hasPromotion() {
         return promotion != null && !promotion.equals("null");
     }
 }

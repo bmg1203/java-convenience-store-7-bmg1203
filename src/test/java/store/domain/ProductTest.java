@@ -25,7 +25,7 @@ class ProductTest {
         assertThat(productWithPromotion.getName()).isEqualTo("콜라");
         assertThat(productWithPromotion.getPrice()).isEqualTo(1000);
         assertThat(productWithPromotion.getQuantity()).isEqualTo(10);
-        assertThat(productWithPromotion.hasPromition()).isTrue();
+        assertThat(productWithPromotion.hasPromotion()).isTrue();
     }
 
     @Test
@@ -33,7 +33,7 @@ class ProductTest {
         assertThat(productWithoutPromotion.getName()).isEqualTo("사이다");
         assertThat(productWithoutPromotion.getPrice()).isEqualTo(1000);
         assertThat(productWithoutPromotion.getQuantity()).isEqualTo(7);
-        assertThat(productWithoutPromotion.hasPromition()).isFalse();
+        assertThat(productWithoutPromotion.hasPromotion()).isFalse();
     }
 
     @ParameterizedTest
