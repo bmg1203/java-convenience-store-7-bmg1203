@@ -1,6 +1,8 @@
 package store.constants;
 
 public enum OutputPrompts {
+    WELCOME_MESSAGE("안녕하세요. W편의점입니다.\n"
+            + "현재 보유하고 있는 상품입니다.\n"),
 
     PRODUCTS_HAVE_PROMOTION("- %s %s원 %d개 %s\n"),
     PRODUCTS_NO_PROMOTION("- %s %s원 %d개\n"),
