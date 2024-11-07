@@ -15,6 +15,10 @@ public class Promotions {
         }
     }
 
+    public Map<String, Promotion> getPromotions() {
+        return promotions;
+    }
+
     public boolean isWithinPeriod(String name) {
         Promotion promotion = promotions.get(name);
         return promotion.isActive();
