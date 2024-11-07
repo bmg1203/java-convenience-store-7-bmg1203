@@ -11,7 +11,7 @@ import store.validator.InputValidator;
 
 public class InputView {
 
-    public static Cart readItem() {
+    public Cart readItem() {
         while(true) {
             try {
                 String input = getPurchaseInput();
@@ -24,7 +24,7 @@ public class InputView {
         }
     }
 
-    public static String checkPromotionCountAdd(Purchase purchase) {
+    public String checkPromotionCountAdd(Purchase purchase) {
         while(true) {
             try {
                 System.out.printf(InputPrompts.PROMOTION_QUANTITY_ADD.getPrompt(), purchase.getName());
@@ -37,7 +37,7 @@ public class InputView {
         }
     }
 
-    public static String checkPromotionSaleNotAccept(Purchase purchase) {
+    public String checkPromotionSaleNotAccept(Purchase purchase) {
         while(true) {
             try {
                 //모자란 개수 구하는 로직 추가하여 적용하기
@@ -51,7 +51,7 @@ public class InputView {
         }
     }
 
-    public static String checkMemberShipSale() {
+    public String checkMemberShipSale() {
         while(true) {
             try {
                 System.out.println(InputPrompts.MEMBERSHIP_DISCOUNT.getPrompt());
@@ -64,7 +64,7 @@ public class InputView {
         }
     }
 
-    public static String checkMorePurchase() {
+    public String checkMorePurchase() {
         while(true) {
             try {
                 System.out.println(InputPrompts.MORE_PURCHASE.getPrompt());
@@ -77,13 +77,13 @@ public class InputView {
         }
     }
 
-    private static String getPurchaseInput() {
+    private String getPurchaseInput() {
         System.out.println(InputPrompts.ENTER_PURCHASE_PRODUCTS.getPrompt());
         String input = Console.readLine();
         return input;
     }
 
-    private static Cart getCart(List<String> purchase) {
+    private Cart getCart(List<String> purchase) {
         List<Purchase> products = new ArrayList<>();
         for (String productInput : purchase) {
             List<String> buyInfo = Split.hyphenSpliter(productInput);

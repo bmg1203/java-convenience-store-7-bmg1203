@@ -15,7 +15,7 @@ public class InitService {
     private static final String PRODUCTS_FILE_NAME = "resources/products.md";
     private static final String PROMOTIONS_FILE_NAME = "resources/promotions.md";
 
-    public static Products saveInitProducts() throws IOException {
+    public Products saveInitProducts() throws IOException {
         List<String> fileContent = FileRead.readFile(PRODUCTS_FILE_NAME);
         List<Product> products = new ArrayList<>();
         for (String content : fileContent) {
@@ -25,7 +25,7 @@ public class InitService {
         return new Products(products);
     }
 
-    public static Promotions saveInitPromotions() throws IOException {
+    public Promotions saveInitPromotions() throws IOException {
         List<String> fileContent = FileRead.readFile(PROMOTIONS_FILE_NAME);
         List<Promotion> promotions = new ArrayList<>();
         for (String content : fileContent) {

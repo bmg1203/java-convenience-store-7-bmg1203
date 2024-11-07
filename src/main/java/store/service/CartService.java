@@ -1,26 +1,30 @@
 package store.service;
 
 import store.constants.ErrorMessage;
-import store.constants.InputPrompts;
 import store.domain.Cart;
 import store.domain.Product;
 import store.domain.Products;
-import store.domain.Promotions;
 import store.domain.Purchase;
 import store.view.InputView;
 
 public class CartService {
 
-    public static void hasProduct(Cart cart, Products products) {
+    private final InputView inputView;
+
+    public CartService(InputView inputView) {
+        this.inputView = inputView;
+    }
+
+    public void hasProduct(Cart cart, Products products) {
         for (Purchase purchase : cart.getItems()) {
             if (!products.hasProduct(purchase.getName())) {
                 System.out.println(ErrorMessage.NO_EXSIST_PRODUCT_ERROR.getMessage());
-                InputView.readItem();
+                inputView.readItem();
             }
         }
     }
 
-    public static void hasQuantity(Cart cart, Products products, PromotionService promotionService) {
+    public void hasQuantity(Cart cart, Products products, PromotionService promotionService) {
         for (Purchase purchase : cart.getItems()) {
             if (isPromotionProduct(purchase, products, promotionService)) {
                 checkPromotionQuantity(purchase, products);
@@ -37,14 +41,14 @@ public class CartService {
                 && promotionService.isPromotionWithinPeriod(products.getPromotionProducts().get(purchase.getName()).getPromotion());
     }
 
-    private static void checkPromotionQuantity(Purchase purchase, Products products) {
+    private void checkPromotionQuantity(Purchase purchase, Products products) {
         Product promotionProduct = products.getPromotionProducts().get(purchase.getName());
         if (!promotionProduct.hasQuantity(purchase.getQuantity())) {
-            InputView.checkPromotionSaleNotAccept(purchase);
+            inputView.checkPromotionSaleNotAccept(purchase);
         }
     }
 
-    private static void checkRegularQuantity(Purchase purchase, Products products) {
+    private void checkRegularQuantity(Purchase purchase, Products products) {
         Product regularProduct = products.getRegularProducts().get(purchase.getName());
         if (!regularProduct.hasQuantity(purchase.getQuantity())) {
             throw new IllegalArgumentException(ErrorMessage.NOT_ENOUGH_QUANTITY_ERROR.getMessage());
