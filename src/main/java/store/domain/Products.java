@@ -49,4 +49,13 @@ public class Products {
         Product product = regularProducts.get(name);
         product.updateQuantity(quantity);
     }
+
+    public boolean hasSufficientStock(String productName, int quantity) {
+        int totalQuantity = regularProducts.get(productName).getQuantity();
+        if (promotionProducts.containsKey(productName)) {
+            totalQuantity += promotionProducts.get(productName).getQuantity();
+        }
+
+        return totalQuantity >= quantity;
+    }
 }
