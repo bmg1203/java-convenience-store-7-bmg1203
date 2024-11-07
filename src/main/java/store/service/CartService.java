@@ -25,7 +25,7 @@ public class CartService {
                 checkPromotionQuantity(purchase, products, promotions);
                 continue;
             }
-            if (products.getRegularProducts().containsKey(purchase.getName()) {
+            if (products.getRegularProducts().containsKey(purchase.getName())) {
                 checkRegularQuantity(purchase, products);
             }
         }
