@@ -4,6 +4,7 @@ import java.io.IOException;
 import store.domain.Cart;
 import store.domain.Products;
 import store.domain.Promotions;
+import store.service.CartService;
 import store.service.InitService;
 import store.view.InputView;
 import store.view.OutputView;
@@ -15,11 +16,14 @@ public class StoreController {
     private Cart cart;
 
     private final InitService initService;
+    private final CartService cartService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public StoreController(InitService initService, InputView inputView, OutputView outputView) {
+    public StoreController(InitService initService, CartService cartService, InputView inputView,
+                           OutputView outputView) {
         this.initService = initService;
+        this.cartService = cartService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -37,7 +41,7 @@ public class StoreController {
     public void start() throws IOException {
         products = initService.saveInitProducts();
         promotions = initService.saveInitPromotions();
-        cart = inputView.readItem();
+        cart = inputView.readItem(products);
         outputView.productsOutput(this.products);
     }
 
