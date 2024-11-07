@@ -24,6 +24,59 @@ public class InputView {
         }
     }
 
+    public static String checkPromotionCountAdd(Purchase purchase) {
+        while(true) {
+            try {
+                System.out.printf(InputPrompts.PROMOTION_QUANTITY_ADD.getPrompt(), purchase.getName());
+                String answer = Console.readLine();
+                InputValidator.validateAnswer(answer);
+                return answer;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static String checkPromotionSaleNotAccept(Purchase purchase) {
+        while(true) {
+            try {
+                //모자란 개수 구하는 로직 추가하여 적용하기
+                System.out.printf(InputPrompts.NOT_ENOUGH_PROMOTION_QUANTITY.getPrompt(), purchase.getName(), purchase.getQuantity());
+                String answer = Console.readLine();
+                InputValidator.validateAnswer(answer);
+                return answer;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static String checkMemberShipSale() {
+        while(true) {
+            try {
+                System.out.println(InputPrompts.MEMBERSHIP_DISCOUNT.getPrompt());
+                String answer = Console.readLine();
+                InputValidator.validateAnswer(answer);
+                return answer;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static String checkMorePurchase() {
+        while(true) {
+            try {
+                System.out.println(InputPrompts.MORE_PURCHASE.getPrompt());
+                String answer = Console.readLine();
+                InputValidator.validateAnswer(answer);
+                return answer;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     private static String getPurchaseInput() {
         System.out.println(InputPrompts.ENTER_PURCHASE_PRODUCTS.getPrompt());
         String input = Console.readLine();
