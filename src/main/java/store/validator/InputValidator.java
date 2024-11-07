@@ -19,4 +19,11 @@ public class InputValidator {
             }
         }
     }
+
+    public static void validateAnswer(String answer) {
+        answer.toUpperCase();
+        if (!answer.equals("Y") && !answer.equals("N")) {
+            throw new IllegalArgumentException(ErrorMessage.ETC_INPUT_ERROR.getMessage());
+        }
+    }
 }
