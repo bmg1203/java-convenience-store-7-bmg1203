@@ -1,6 +1,8 @@
 package store.domain;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import store.utils.Parser;
 
 public class Promotion {
@@ -8,15 +10,15 @@ public class Promotion {
     private final String name;
     private final int buy;
     private final int get;
-    private final LocalDate start_date;
-    private final LocalDate end_date;
+    private final LocalDateTime start_date;
+    private final LocalDateTime end_date;
 
     public Promotion(String name, String buy, String get, String start_date, String end_date) {
         this.name = name;
         this.buy = Parser.parseNumberToInt(buy);
         this.get = Parser.parseNumberToInt(get);
-        this.start_date = LocalDate.parse(start_date);
-        this.end_date = LocalDate.parse(end_date);
+        this.start_date = LocalDateTime.parse(start_date);
+        this.end_date = LocalDateTime.parse(end_date);
     }
 
     public String getName() {
@@ -31,16 +33,16 @@ public class Promotion {
         return get;
     }
 
-    public LocalDate getStart_date() {
+    public LocalDateTime getStart_date() {
         return start_date;
     }
 
-    public LocalDate getEnd_date() {
+    public LocalDateTime getEnd_date() {
         return end_date;
     }
 
     public boolean isActive() {
-        LocalDate today = LocalDate.now();
+        LocalDateTime today = DateTimes.now();
         return !today.isBefore(start_date) && !today.isAfter(end_date);
     }
 }
