@@ -5,23 +5,31 @@ import java.util.ArrayList;
 import java.util.List;
 import store.constants.InputPrompts;
 import store.domain.Cart;
+import store.domain.Products;
 import store.domain.Purchase;
 import store.utils.Split;
 import store.validator.InputValidator;
 
 public class InputView {
 
-    public Cart readItem() {
+    public Cart readItem(Products products) {
         while(true) {
             try {
                 String input = getPurchaseInput();
                 List<String> purchase = Split.squareBracketsSpliter(Split.commaSpliter(input));
-                validatePurchase(purchase);
-                return getCart(purchase);
+                return validateReadItem(purchase, products);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    private Cart validateReadItem(List<String> purchase, Products products) {
+        validatePurchase(purchase);
+        Cart cart = getCart(purchase);
+        InputValidator.validateHasProduct(cart, products);
+        InputValidator.validateSufficientStock(cart, products);
+        return cart;
     }
 
     public String checkPromotionCountAdd(Purchase purchase) {

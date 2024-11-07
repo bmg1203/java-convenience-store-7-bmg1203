@@ -15,15 +15,6 @@ public class CartService {
         this.inputView = inputView;
     }
 
-    public void hasProduct(Cart cart, Products products) {
-        for (Purchase purchase : cart.getItems()) {
-            if (!products.hasProduct(purchase.getName())) {
-                System.out.println(ErrorMessage.NO_EXSIST_PRODUCT_ERROR.getMessage());
-                inputView.readItem();
-            }
-        }
-    }
-
     public void hasQuantity(Cart cart, Products products, PromotionService promotionService) {
         for (Purchase purchase : cart.getItems()) {
             if (isPromotionProduct(purchase, products, promotionService)) {
