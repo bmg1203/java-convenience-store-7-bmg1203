@@ -1,11 +1,16 @@
 package store.controller;
 
 import java.io.IOException;
+import java.util.Map;
 import store.domain.Cart;
 import store.domain.Products;
+import store.domain.Promotion;
 import store.domain.Promotions;
+import store.domain.Purchase;
+import store.domain.TotalPrice;
 import store.service.CartService;
 import store.service.InitService;
+import store.service.PromotionService;
 import store.view.InputView;
 import store.view.OutputView;
 
@@ -14,23 +19,24 @@ public class StoreController {
     private Products products;
     private Promotions promotions;
     private Cart cart;
+    private TotalPrice totalPrice;
 
     private final InitService initService;
-    private final CartService cartService;
+    private final PromotionService promotionService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public StoreController(InitService initService, CartService cartService, InputView inputView,
-                           OutputView outputView) {
+    public StoreController(InitService initService, PromotionService promotionService,
+                           InputView inputView, OutputView outputView) {
         this.initService = initService;
-        this.cartService = cartService;
+        this.promotionService = promotionService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() throws IOException {
         String next = "Y";
-        while(!next.equals("N")) {
+        while(next.equals("Y")) {
             start();
             checkProducts();
             result();
@@ -46,14 +52,24 @@ public class StoreController {
     }
 
     public void checkProducts() {
-        //각각 재고 확인
-        //재고 부족시 다시 입력
-        //프로모션 종류별 혜택 개수 맞는지 확인
-        //프로모션 재고 부족시 일반 재고(정상가)로 구매건지 확인
-        //나머진 그냥 구매로 굳히기(카트에 들어가는 것인 Purchase에도 프로모션 넣자)
+        for (Purchase purchase : cart.getItems()) {
+            Promotion promotion = promotions.getPromotions().get(purchase.getName());
+            purchase.setPromotion(promotion.getName());
+            if (!purchase.getPromotion().equals("null")) {
+                promotionService.promotionsAll(purchase, promotions, products, cart);
+            }
+        }
     }
 
     public void result() {
         //영수증 출력
+        Map<String, Purchase> items = cart.mergeItems(cart.getItems());
+        totalPrice = new TotalPrice(cart.getItems(), products);
+        totalPrice.setPromotionPrice(totalPrice.getPromotionSalePrice(cart.getItems(), promotions, products));
+        String answer = inputView.checkMemberShipSale();
+        if (answer.equals("Y")) {
+            totalPrice.setMemberShipPrice(totalPrice.getMembershipSalePrice(cart.getItems(), promotions, products));
+        }
+        outputView.printReceipt(cart, products, promotions, items, totalPrice);
     }
 }
