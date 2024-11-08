@@ -14,11 +14,12 @@ public class Split {
     }
 
     public static List<String> squareBracketsSpliter(List<String> purchase) {
+        List<String> result = new ArrayList<>();
         for (String product : purchase) {
-            product.replaceAll("\\[", "");
-            product.replaceAll("\\]", "");
+            String withoutBrackets = product.replaceAll("\\[", "").replaceAll("\\]", "");
+            result.add(withoutBrackets);
         }
-        return purchase;
+        return result;
     }
 
     public static List<String> hyphenSpliter(String str) {
