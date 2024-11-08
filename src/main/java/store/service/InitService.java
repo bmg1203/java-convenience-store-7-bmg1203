@@ -12,8 +12,8 @@ import store.utils.Split;
 
 public class InitService {
 
-    private static final String PRODUCTS_FILE_NAME = "resources/products.md";
-    private static final String PROMOTIONS_FILE_NAME = "resources/promotions.md";
+    private static final String PRODUCTS_FILE_NAME = "src/main/resources/products.md";
+    private static final String PROMOTIONS_FILE_NAME = "src/main/resources/promotions.md";
 
     public Products saveInitProducts() throws IOException {
         List<String> fileContent = FileRead.readFile(PRODUCTS_FILE_NAME);
