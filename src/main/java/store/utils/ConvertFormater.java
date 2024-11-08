@@ -9,4 +9,11 @@ public class ConvertFormater {
         String formatMoney = df.format(money);
         return formatMoney;
     }
+
+    public static String quantityFormat(int quantity) {
+        if (quantity == 0) {
+            return "재고 없음";
+        }
+        return String.valueOf(quantity);
+    }
 }
