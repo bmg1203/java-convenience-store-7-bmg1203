@@ -45,4 +45,8 @@ public class Promotion {
         LocalDateTime today = DateTimes.now();
         return !today.isBefore(start_date) && !today.isAfter(end_date);
     }
+
+    public boolean correctCount(int quantity) {
+        return quantity % (buy + get) == 0;
+    }
 }
