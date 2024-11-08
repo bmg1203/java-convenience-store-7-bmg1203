@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import store.constants.NumberConstants;
 
 class ProductTest {
 
@@ -72,5 +73,72 @@ class ProductTest {
 
         //then
         assertThat(productWithPromotion.getQuantity()).isEqualTo(originalQuantity - quantity);
+    }
+
+    @Test
+    void 최소_가격_입력_테스트() {
+        // given
+        String name = "콜라";
+        String price = String.valueOf(NumberConstants.MIN_PRICE.getCount());
+        String quantity = "10";
+        String promotion = "탄산2+1";
+
+        // when
+        Product product = new Product(name, price, quantity, promotion);
+
+        // then
+        assertThat(product.getPrice()).isEqualTo(NumberConstants.MIN_PRICE.getCount());
+    }
+
+    @Test
+    void 최소_수량_입력_테스트() {
+        // given
+        String name = "콜라";
+        String price = "1000";
+        String quantity = String.valueOf(NumberConstants.MIN_QUANTITY.getCount());
+        String promotion = "탄산2+1";
+
+        // when
+        Product product = new Product(name, price, quantity, promotion);
+
+        // then
+        assertThat(product.getQuantity()).isEqualTo(NumberConstants.MIN_QUANTITY.getCount());
+    }
+
+    @Test
+    void 수량이_0일_때_테스트() {
+        // given
+        productWithPromotion.updateQuantity(10); // 수량을 0으로 만듦
+
+        // when
+        boolean hasEnough = productWithPromotion.hasQuantity(1);
+
+        // then
+        assertThat(hasEnough).isFalse();
+    }
+
+    @Test
+    void 프로모션_null_입력시_예외_테스트() {
+        // given
+        String name = "사이다";
+        String price = "1000";
+        String quantity = "5";
+        String promotion = null;
+
+        // when
+        Product product = new Product(name, price, quantity, promotion);
+
+        // then
+        assertThat(product.hasPromotion()).isFalse();
+    }
+
+    @Test
+    void 여러_번_수량_업데이트_테스트() {
+        // when
+        productWithPromotion.updateQuantity(3);
+        productWithPromotion.updateQuantity(2);
+
+        // then
+        assertThat(productWithPromotion.getQuantity()).isEqualTo(5); // 초기 10에서 3, 2 감소
     }
 }
