@@ -1,19 +1,25 @@
 package store.domain;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import store.constants.ErrorMessage;
 
 public class Products {
 
-    private final Map<String, Product> promotionProducts = new HashMap<>();
-    private final Map<String, Product> regularProducts = new HashMap<>();
+    private List<String> productNames = new ArrayList<>();
+    private final Map<String, Product> promotionProducts = new LinkedHashMap<>();
+    private final Map<String, Product> regularProducts = new LinkedHashMap<>();
 
     public Products(List<Product> allProducts) {
         for (Product product : allProducts) {
             addProduct(product);
         }
+    }
+
+    public List<String> getProductNames() {
+        return productNames;
     }
 
     public Map<String, Product> getPromotionProducts() {
@@ -22,6 +28,10 @@ public class Products {
 
     public Map<String, Product> getRegularProducts() {
         return regularProducts;
+    }
+
+    public void setProductNames(List<String> productNames) {
+        this.productNames = productNames;
     }
 
     private void addProduct(Product product) {
