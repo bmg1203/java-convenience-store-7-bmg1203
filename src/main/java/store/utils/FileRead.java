@@ -25,7 +25,6 @@ public class FileRead {
             if (line == null) break;
             contents.add(line);
         }
-        contents.removeFirst();
         return contents;
     }
 }
