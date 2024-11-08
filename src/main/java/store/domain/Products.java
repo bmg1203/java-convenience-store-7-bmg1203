@@ -10,7 +10,7 @@ public class Products {
 
     private List<String> productNames = new ArrayList<>();
     private final Map<String, Product> promotionProducts = new LinkedHashMap<>();
-    private final Map<String, Product> regularProducts = new LinkedHashMap<>();
+    private Map<String, Product> regularProducts = new LinkedHashMap<>();
 
     public Products(List<Product> allProducts) {
         for (Product product : allProducts) {
@@ -40,6 +40,15 @@ public class Products {
         }
         if (!product.hasPromotion()) {
             regularProducts.put(product.getName(), product);
+        }
+    }
+
+    public void addNoRegularProducts() {
+        for (String productName : productNames) {
+            if (!regularProducts.containsKey(productName)) {
+                Product product = promotionProducts.get(productName);
+                regularProducts.put(productName, new Product(productName, String.valueOf(product.getPrice()), "0", "null"));
+            }
         }
     }
 
