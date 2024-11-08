@@ -7,11 +7,19 @@ import store.utils.Parser;
 public class Purchase {
 
     private final String name;
-    private final int quantity;
+    private int quantity;
+    private String promotion;
 
     public Purchase(String name, String quantity) {
-        this.name = name; //이름 유효성 검사하기
+        this.name = name;
         this.quantity = validateQuantity(Parser.parseNumberToInt(quantity));
+        this.promotion = "null";
+    }
+
+    public Purchase(String name, int quantity, String promotion) {
+        this.name = name;
+        this.quantity = quantity;
+        this.promotion = promotion;
     }
 
     public String getName() {
@@ -20,6 +28,18 @@ public class Purchase {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public String getPromotion() {
+        return promotion;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setPromotion(String promotion) {
+        this.promotion = promotion;
     }
 
     private int validateQuantity(int count) {
