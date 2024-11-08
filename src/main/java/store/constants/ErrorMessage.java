@@ -8,7 +8,8 @@ public enum ErrorMessage {
     NOT_POSITIVE_INPUT_ERROR("구입할 수량은 1 이상이어야 합니다. 다시 입력해 주세요."),
     ETC_INPUT_ERROR("잘못된 입력입니다. 다시 입력해주세요."),
     DUPLICATE_PRODUCT_INPUT_ERROR("같은 상품은 한 번에 여러개 구입합니다. 다시 입력해 주세요."),
-    PRODUCT_ERROR("잘못된 재고입니다.");
+    PRODUCT_ERROR("잘못된 재고입니다."),
+    SYSTEM_ERROR("실행 오류 입니다.");
 
     private final String prefix = "[ERROR] ";
     private final String message;
