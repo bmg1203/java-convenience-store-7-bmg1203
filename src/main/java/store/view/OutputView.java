@@ -1,5 +1,6 @@
 package store.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import store.constants.OutputPrompts;
@@ -16,26 +17,31 @@ public class OutputView {
 
     public void productsOutput (Products products) {
         System.out.println(OutputPrompts.WELCOME_MESSAGE.getPrompts());
-        for (String name : products.getRegularProducts().keySet()) {
+        List<String> productStrings = new ArrayList<>();
+        for (String name : products.getProductNames()) {
             if (products.getPromotionProducts().containsKey(name)) {
-                printPromotionProduct(name, products.getPromotionProducts());
+                productStrings.add(getPromotionProductString(name, products.getPromotionProducts()));
             }
-            printRegularProduct(name, products.getRegularProducts());
+            if (products.getRegularProducts().containsKey(name)) {
+                productStrings.add(getRegularProductString(name, products.getRegularProducts()));
+            }
         }
+        String output = String.join(",\n", productStrings);
+        System.out.println(output);
     }
 
-    private void printPromotionProduct(String name, Map<String, Product> promotionProducts) {
+    private String getPromotionProductString(String name, Map<String, Product> promotionProducts) {
         Product product = promotionProducts.get(name);
-        System.out.printf(OutputPrompts.PRODUCTS_HAVE_PROMOTION.getPrompts(),
+        return String.format(OutputPrompts.PRODUCTS_HAVE_PROMOTION.getPrompts(),
                 product.getName(), ConvertFormater.moneyFormat(product.getPrice()),
-                product.getQuantity(), product.getPromotion());
+                ConvertFormater.quantityFormat(product.getQuantity()), product.getPromotion());
     }
 
-    private void printRegularProduct(String name, Map<String, Product> regularProducts) {
+    private String getRegularProductString(String name, Map<String, Product> regularProducts) {
         Product product = regularProducts.get(name);
-        System.out.printf(OutputPrompts.PRODUCTS_NO_PROMOTION.getPrompts(),
+        return String.format(OutputPrompts.PRODUCTS_NO_PROMOTION.getPrompts(),
                 product.getName(), ConvertFormater.moneyFormat(product.getPrice()),
-                product.getQuantity());
+                ConvertFormater.quantityFormat(product.getQuantity()));
     }
 
     public void printReceipt(Cart cart, Products products, Promotions promotions, Map<String, Purchase> items, TotalPrice totalPrice) {
@@ -58,7 +64,7 @@ public class OutputView {
         System.out.println(OutputPrompts.RECEIPT_TOTAL_PRICE_HEADER.getPrompts());
         System.out.printf(OutputPrompts.RECEIPT_TOTAL_PRICE.getPrompts(), totalPrice.getTotalCount(), ConvertFormater.moneyFormat(totalPrice.getTotalPrice()));
         System.out.printf(OutputPrompts.RECEIPT_PROMOTION_DISCOUNT.getPrompts(), ConvertFormater.moneyFormat(totalPrice.getPromotionPrice()));
-        System.out.printf(OutputPrompts.RECEIPT_MEMBERSHIP_DISCOUNT.getPrompts(), ConvertFormater.moneyFormat(totalPrice.getMemberShipPrice()));
-        System.out.printf(OutputPrompts.RECEIPT_FINAL_PRICE.getPrompts(), ConvertFormater.moneyFormat(totalPrice.getTotalPrice() - totalPrice.getPromotionPrice() - totalPrice.getMemberShipPrice()));
+        System.out.printf(OutputPrompts.RECEIPT_MEMBERSHIP_DISCOUNT.getPrompts(), ConvertFormater.moneyFormat((int)totalPrice.getMemberShipPrice()));
+        System.out.printf(OutputPrompts.RECEIPT_FINAL_PRICE.getPrompts(), ConvertFormater.moneyFormat(totalPrice.getTotalPrice() - totalPrice.getPromotionPrice() - (int)totalPrice.getMemberShipPrice()));
     }
 }
