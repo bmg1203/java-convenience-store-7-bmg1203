@@ -49,4 +49,17 @@ public class Promotion {
     public boolean correctCount(int quantity) {
         return quantity % (buy + get) == 0;
     }
+
+    public int addCount(int quantity) {
+        quantity += quantity % (buy + get);
+        return quantity;
+    }
+
+    public int extraCount(int quantity) {
+        return quantity % (buy + get);
+    }
+
+    public int freeCount(int quantity) {
+        return quantity / (buy + get);
+    }
 }
