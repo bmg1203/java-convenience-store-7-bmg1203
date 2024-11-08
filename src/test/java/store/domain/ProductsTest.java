@@ -22,6 +22,7 @@ class ProductsTest {
         productList.add(new Product("물", "500", "20", "null"));
 
         products = new Products(productList);
+        products.setProductNames(List.of("콜라", "사이다", "물"));
     }
 
     @Test
@@ -82,5 +83,17 @@ class ProductsTest {
         // when & then
         assertThat(products.hasSufficientStock(productName, sufficientQuantity)).isTrue();
         assertThat(products.hasSufficientStock(productName, insufficientQuantity)).isFalse();
+    }
+
+    @Test
+    void 제품_이름_삽입_순서_유지_테스트() {
+        // given
+        List<String> expectedProductNames = List.of("콜라", "사이다", "물");
+
+        // when
+        List<String> actualProductNames = products.getProductNames();
+
+        // then
+        assertThat(actualProductNames).containsExactlyElementsOf(expectedProductNames);
     }
 }
