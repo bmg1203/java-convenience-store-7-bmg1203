@@ -34,6 +34,17 @@ public class StoreController {
         this.outputView = outputView;
     }
 
+    // 정적 메소드로 전체 실행 흐름을 관리
+    public static void runStore() throws IOException {
+        InitService initService = new InitService();
+        PromotionService promotionService = new PromotionService(new InputView());
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
+
+        StoreController storeController = new StoreController(initService, promotionService, inputView, outputView);
+        storeController.run();
+    }
+
     public void run() throws IOException {
         String next = "Y";
         while(next.equals("Y")) {
