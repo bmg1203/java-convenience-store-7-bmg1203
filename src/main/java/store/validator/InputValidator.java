@@ -34,7 +34,7 @@ public class InputValidator {
     public static void validateSufficientStock(Cart cart, Products products) {
         for (Purchase purchase : cart.getItems()) {
             if (!products.hasSufficientStock(purchase.getName(), purchase.getQuantity())) {
-                throw new IllegalArgumentException(ErrorMessage.NO_EXSIST_PRODUCT_ERROR.getMessage());
+                throw new IllegalArgumentException(ErrorMessage.NOT_ENOUGH_QUANTITY_ERROR.getMessage());
             }
         }
     }
