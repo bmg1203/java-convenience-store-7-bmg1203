@@ -2,7 +2,9 @@ package store.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import store.domain.Product;
 import store.domain.Products;
 import store.domain.Promotion;
@@ -17,12 +19,22 @@ public class InitService {
 
     public Products saveInitProducts() throws IOException {
         List<String> fileContent = FileRead.readFile(PRODUCTS_FILE_NAME);
-        List<Product> products = new ArrayList<>();
+        List<Product> productList = new ArrayList<>();
+        Set<String> productNames = new LinkedHashSet<>();
+
+        saveProducts(fileContent, productNames, productList);
+        Products products = new Products(productList);
+        products.setProductNames(new ArrayList<>(productNames));
+        products.addNoRegularProducts();
+        return products;
+    }
+
+    private static void saveProducts(List<String> fileContent, Set<String> productNames, List<Product> productList) {
         for (String content : fileContent) {
             List<String> split = Split.commaSpliter(content);
-            products.add(new Product(split.get(0), split.get(1), split.get(2), split.get(3)));
+            productNames.add(split.get(0));
+            productList.add(new Product(split.get(0), split.get(1), split.get(2), split.get(3)));
         }
-        return new Products(products);
     }
 
     public Promotions saveInitPromotions() throws IOException {
