@@ -1,5 +1,6 @@
 package store.controller;
 
+import camp.nextstep.edu.missionutils.Console;
 import java.io.IOException;
 import java.util.Map;
 import store.domain.Cart;
@@ -53,6 +54,7 @@ public class StoreController {
             result();
             next = inputView.checkMorePurchase();
         }
+        Console.close();
     }
 
     public void start() throws IOException {
