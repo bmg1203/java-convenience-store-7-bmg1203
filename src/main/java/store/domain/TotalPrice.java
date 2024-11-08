@@ -48,6 +48,9 @@ public class TotalPrice {
     public int getPromotionSalePrice(List<Purchase> purchases, Promotions promotions, Products products) {
         int promotionPrice = 0;
         for (Purchase purchase : purchases) {
+            if (purchase.getPromotion().equals("null")) {
+                continue;
+            }
             Promotion promotion = promotions.getPromotions().get(purchase.getPromotion());
             int price = products.getRegularProducts().get(purchase.getName()).getPrice();
             promotionPrice += price * promotion.freeCount(purchase.getQuantity());
