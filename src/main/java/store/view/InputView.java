@@ -45,11 +45,10 @@ public class InputView {
         }
     }
 
-    public String checkPromotionSaleNotAccept(Purchase purchase) {
+    public String checkPromotionSaleNotAccept(Purchase purchase, int count) {
         while(true) {
             try {
-                //모자란 개수 구하는 로직 추가하여 적용하기
-                System.out.printf(InputPrompts.NOT_ENOUGH_PROMOTION_QUANTITY.getPrompt(), purchase.getName(), purchase.getQuantity());
+                System.out.printf(InputPrompts.NOT_ENOUGH_PROMOTION_QUANTITY.getPrompt(), purchase.getName(), count);
                 String answer = Console.readLine();
                 InputValidator.validateAnswer(answer);
                 return answer;
