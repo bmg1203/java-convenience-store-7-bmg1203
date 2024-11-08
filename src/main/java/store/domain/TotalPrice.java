@@ -6,9 +6,35 @@ public class TotalPrice {
 
     private int totalCount = 0;
     private int totalPrice = 0;
+    private int promotionPrice = 0;
+    private int memberShipPrice = 0;
 
     public TotalPrice(List<Purchase> purchases, Products products) {
         getTotalPrice(purchases, products);
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public int getPromotionPrice() {
+        return promotionPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setPromotionPrice(int promotionPrice) {
+        this.promotionPrice = promotionPrice;
+    }
+
+    public int getMemberShipPrice() {
+        return memberShipPrice;
+    }
+
+    public void setMemberShipPrice(int memberShipPrice) {
+        this.memberShipPrice = memberShipPrice;
     }
 
     private void getTotalPrice(List<Purchase> purchases, Products products) {
