@@ -7,7 +7,7 @@ public class TotalPrice {
     private int totalCount = 0;
     private int totalPrice = 0;
     private int promotionPrice = 0;
-    private int memberShipPrice = 0;
+    private double memberShipPrice = 0;
 
     public TotalPrice(List<Purchase> purchases, Products products) {
         getTotalPrice(purchases, products);
@@ -29,11 +29,11 @@ public class TotalPrice {
         this.promotionPrice = promotionPrice;
     }
 
-    public int getMemberShipPrice() {
+    public double getMemberShipPrice() {
         return memberShipPrice;
     }
 
-    public void setMemberShipPrice(int memberShipPrice) {
+    public void setMemberShipPrice(double memberShipPrice) {
         this.memberShipPrice = memberShipPrice;
     }
 
@@ -58,8 +58,9 @@ public class TotalPrice {
         return promotionPrice;
     }
 
-    public int getMembershipSalePrice(List<Purchase> purchases, Promotions promotions, Products products) {
-        int membershipPrice = totalPrice - getPromotionSalePrice(purchases, promotions, products);
+    public double getMembershipSalePrice(List<Purchase> purchases, Promotions promotions, Products products) {
+        int afterPromotionSalePrice = totalPrice - getPromotionSalePrice(purchases, promotions, products);
+        double membershipPrice = afterPromotionSalePrice * 0.7;
         if (membershipPrice > 8000) {
             return 8000;
         }
