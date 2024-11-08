@@ -40,12 +40,12 @@ public class Products {
         return promotionProducts.containsKey(productName) || regularProducts.containsKey(productName);
     }
 
-    public void updatePromotionProductQuantitu(String name, int quantity) {
+    public void updatePromotionProductQuantity(String name, int quantity) {
         Product product = promotionProducts.get(name);
         product.updateQuantity(quantity);
     }
 
-    public void updateRegularProductQuantitu(String name, int quantity) {
+    public void updateRegularProductQuantity(String name, int quantity) {
         Product product = regularProducts.get(name);
         product.updateQuantity(quantity);
     }
