@@ -66,7 +66,7 @@ class TotalPriceTest {
     @Test
     void 멤버십_할인_금액_테스트() {
         // when
-        int calculatedMembershipPrice = totalPrice.getMembershipSalePrice(purchases, promotions, products);
+        int calculatedMembershipPrice = (int) totalPrice.getMembershipSalePrice(purchases, promotions, products);
 
         // then
         // 총 가격 14200 - 프로모션 할인 3000 = 11200 -> 멤버십 할인 적용 시 최대 8000원
