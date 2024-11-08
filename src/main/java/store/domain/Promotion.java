@@ -53,7 +53,7 @@ public class Promotion {
     }
 
     public int addCount(int quantity) {
-        quantity += quantity % (buy + get);
+        quantity += (buy + get) - (quantity % (buy + get));
         return quantity;
     }
 
