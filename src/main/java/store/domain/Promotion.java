@@ -3,6 +3,7 @@ package store.domain;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import store.utils.Parser;
 
 public class Promotion {
@@ -11,14 +12,15 @@ public class Promotion {
     private final int buy;
     private final int get;
     private final LocalDateTime start_date;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final LocalDateTime end_date;
 
     public Promotion(String name, String buy, String get, String start_date, String end_date) {
         this.name = name;
         this.buy = Parser.parseNumberToInt(buy);
         this.get = Parser.parseNumberToInt(get);
-        this.start_date = LocalDateTime.parse(start_date);
-        this.end_date = LocalDateTime.parse(end_date);
+        this.start_date = LocalDate.parse(start_date, DATE_FORMATTER).atStartOfDay();
+        this.end_date = LocalDate.parse(end_date, DATE_FORMATTER).atStartOfDay();
     }
 
     public String getName() {
