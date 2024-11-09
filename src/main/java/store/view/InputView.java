@@ -16,6 +16,7 @@ public class InputView {
         while(true) {
             try {
                 String input = getPurchaseInput();
+                validatePurchase(Split.commaSpliter(input));
                 List<String> purchase = Split.squareBracketsSpliter(Split.commaSpliter(input));
                 return validateReadItem(purchase, products);
             } catch (IllegalArgumentException e) {
