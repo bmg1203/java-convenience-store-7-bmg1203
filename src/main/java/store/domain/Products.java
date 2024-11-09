@@ -8,6 +8,8 @@ import store.constants.ErrorMessage;
 
 public class Products {
 
+    private static final String ZERO_STR = "0";
+    private static final String NO_PROMOTION = "null";
     private List<String> productNames = new ArrayList<>();
     private final Map<String, Product> promotionProducts = new LinkedHashMap<>();
     private Map<String, Product> regularProducts = new LinkedHashMap<>();
@@ -47,7 +49,7 @@ public class Products {
         for (String productName : productNames) {
             if (!regularProducts.containsKey(productName)) {
                 Product product = promotionProducts.get(productName);
-                regularProducts.put(productName, new Product(productName, String.valueOf(product.getPrice()), "0", "null"));
+                regularProducts.put(productName, new Product(productName, String.valueOf(product.getPrice()), ZERO_STR, NO_PROMOTION));
             }
         }
     }
