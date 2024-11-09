@@ -11,6 +11,17 @@ import store.domain.Purchase;
 public class InputValidator {
 
     private static final String PATTERN = "^[a-zA-Z가-힣0-9\\-\\[\\]]+$";
+    private static final String VALID_PATTERN = "\\[[a-zA-Z가-힣0-9]+-[0-9]+\\]";
+
+    public static void validateInput(String input) {
+        String[] items = input.split(",");
+
+        for (String item : items) {
+            if (!item.matches(VALID_PATTERN)) {
+                throw new IllegalArgumentException(ErrorMessage.PRODUCT_BUY_FORM_ERROR.getMessage());
+            }
+        }
+    }
 
     public static void validatePurchaseForm(List<String> inputs) {
         for (String input : inputs) {
