@@ -12,10 +12,11 @@ public enum ErrorMessage {
     SYSTEM_ERROR("실행 오류 입니다.");
 
     private final String prefix = "[ERROR] ";
+    private final String postfix = "\n";
     private final String message;
 
     ErrorMessage(String message) {
-        this.message = prefix + message;
+        this.message = prefix + message + postfix;
     }
 
     public String getMessage() {
