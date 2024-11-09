@@ -9,6 +9,7 @@ public class Application {
             StoreController.runStore();
         } catch (Exception e) {
             System.out.println(ErrorMessage.SYSTEM_ERROR.getMessage());
+            e.printStackTrace();
         }
     }
 }
