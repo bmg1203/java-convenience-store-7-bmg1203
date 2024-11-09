@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Map;
 import store.domain.Cart;
 import store.domain.Products;
-import store.domain.Promotion;
 import store.domain.Promotions;
 import store.domain.Purchase;
 import store.domain.TotalPrice;
@@ -24,13 +23,15 @@ public class StoreController {
 
     private final InitService initService;
     private final PromotionService promotionService;
+    private final CartService cartService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public StoreController(InitService initService, PromotionService promotionService,
+    public StoreController(InitService initService, PromotionService promotionService, CartService cartService,
                            InputView inputView, OutputView outputView) {
         this.initService = initService;
         this.promotionService = promotionService;
+        this.cartService = cartService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -39,39 +40,49 @@ public class StoreController {
     public static void runStore() throws IOException {
         InitService initService = new InitService();
         PromotionService promotionService = new PromotionService(new InputView());
+        CartService cartService = new CartService();
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
 
-        StoreController storeController = new StoreController(initService, promotionService, inputView, outputView);
+        StoreController storeController = new StoreController(initService, promotionService, cartService, inputView, outputView);
         storeController.run();
     }
 
     public void run() throws IOException {
         String next = "Y";
+        initStock();
         while(next.equals("Y")) {
             start();
             checkProducts();
             result();
+            products = cartService.productsReduce(products, cart);
             next = inputView.checkMorePurchase();
         }
         Console.close();
     }
 
-    public void start() throws IOException {
+    public void initStock() throws IOException {
         products = initService.saveInitProducts();
         promotions = initService.saveInitPromotions();
-        cart = inputView.readItem(products);
+    }
+
+    public void start() {
         outputView.productsOutput(this.products);
+        cart = inputView.readItem(products);
     }
 
     public void checkProducts() {
         for (Purchase purchase : cart.getItems()) {
-            Promotion promotion = promotions.getPromotions().get(purchase.getName());
-            purchase.setPromotion(promotion.getName());
+            promotionService.setPromotion(purchase, products);
             if (!purchase.getPromotion().equals("null")) {
                 promotionService.promotionsAll(purchase, promotions, products, cart);
             }
         }
+        addCart();
+    }
+
+    private void addCart() {
+        promotionService.applyAddPurchaseToCart(cart);
     }
 
     public void result() {
