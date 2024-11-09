@@ -16,7 +16,7 @@ public class InputView {
         while(true) {
             try {
                 String input = getPurchaseInput();
-                validatePurchase(Split.commaSpliter(input));
+                InputValidator.validateInput(input);
                 List<String> purchase = Split.squareBracketsSpliter(Split.commaSpliter(input));
                 return validateReadItem(purchase, products);
             } catch (IllegalArgumentException e) {
@@ -88,7 +88,7 @@ public class InputView {
     private String getPurchaseInput() {
         System.out.println(InputPrompts.ENTER_PURCHASE_PRODUCTS.getPrompt());
         String input = Console.readLine();
-        return input;
+        return input.replaceAll(" ", "");
     }
 
     private Cart getCart(List<String> purchase) {
