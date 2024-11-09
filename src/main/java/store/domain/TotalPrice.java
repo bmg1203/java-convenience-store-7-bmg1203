@@ -60,7 +60,7 @@ public class TotalPrice {
 
     public double getMembershipSalePrice(List<Purchase> purchases, Promotions promotions, Products products) {
         int afterPromotionSalePrice = totalPrice - getPromotionSalePrice(purchases, promotions, products);
-        double membershipPrice = afterPromotionSalePrice * 0.7;
+        double membershipPrice = afterPromotionSalePrice * 0.3;
         if (membershipPrice > 8000) {
             return 8000;
         }

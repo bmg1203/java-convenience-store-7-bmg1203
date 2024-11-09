@@ -70,7 +70,7 @@ class TotalPriceTest {
 
         // then
         // 총 가격 14200 - 프로모션 할인 3000 = 11200 -> 멤버십 할인 적용 시 최대 8000원
-        assertThat(calculatedMembershipPrice).isEqualTo(8000);
+        assertThat(calculatedMembershipPrice).isEqualTo(3360);
     }
 
     @Test
