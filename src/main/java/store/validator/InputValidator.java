@@ -10,7 +10,7 @@ import store.domain.Purchase;
 
 public class InputValidator {
 
-    private static final String PATTERN = "^[a-zA-Z가-힣0-9\\-]+$";
+    private static final String PATTERN = "^[a-zA-Z가-힣0-9\\-\\[\\]]+$";
 
     public static void validatePurchaseForm(List<String> inputs) {
         for (String input : inputs) {
