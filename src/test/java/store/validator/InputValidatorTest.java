@@ -6,6 +6,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import store.constants.ErrorMessage;
 import store.domain.Cart;
 import store.domain.Product;
@@ -13,6 +15,25 @@ import store.domain.Products;
 import store.domain.Purchase;
 
 class InputValidatorTest {
+
+    @Test
+    void 유효한_입력_검증_테스트() {
+        //given
+        String validInput = "[콜라-5],[사이다-2]";
+
+        //when, then
+        assertThatCode(() -> InputValidator.validateInput(validInput))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"콜라-5,사이다-2", "[콜라,5]", "[콜라@5],[사이다#2]", ""})
+    void 입력_문자열_예외_테스트(String invalidInput) {
+        //when, then
+        assertThatThrownBy(() -> InputValidator.validateInput(invalidInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.PRODUCT_BUY_FORM_ERROR.getMessage());
+    }
 
     @Test
     void 구매폼_유효성_검사_정상_테스트() {
