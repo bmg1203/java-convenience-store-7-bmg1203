@@ -16,7 +16,7 @@ public class PromotionService {
     private static final String YES = "Y";
     private static final String NO = "N";
     private final InputView inputView;
-    private static final List<Purchase> addPurchase = new ArrayList<>();
+    private static final List<Purchase> addRegularPurchase = new ArrayList<>();
 
     public PromotionService(InputView inputView) {
         this.inputView = inputView;
@@ -30,12 +30,10 @@ public class PromotionService {
         }
     }
 
-    //프로모션 종류별 혜택 개수 맞는지 확인
-    //프로모션 재고 부족시 일반 재고(정상가)로 구매건지 확인
-    //나머진 그냥 구매로 굳히기(카트에 들어가는 것인 Purchase에도 프로모션 넣자)
     public void promotionsAll(Purchase purchase, Promotions promotions, Products products, Cart cart) {
         Promotion promotion = promotions.getPromotions().get(purchase.getPromotion());
-        if (promotion == null) {
+        if (promotion == null || !promotion.isActive()) {
+            purchase.setPromotion(NO_PROMOTION);
             return;
         }
 
@@ -71,8 +69,7 @@ public class PromotionService {
 
         if (answer.equals(YES)) {
             purchase.setQuantity(promotionQuantity);
-            // 일반 상품으로 추가
-            addPurchase.add(new Purchase(purchase.getName(), extraCount, "null"));
+            addRegularPurchase.add(new Purchase(purchase.getName(), extraCount, "null"));
         }
         if (answer.equals(NO)) {
             purchase.setQuantity(promotionQuantity);
@@ -80,13 +77,13 @@ public class PromotionService {
     }
 
     public void applyAddPurchaseToCart(Cart cart) {
-        if (addPurchase != null && !addPurchase.isEmpty()) {
-            cart.getItems().addAll(addPurchase);
-            addPurchase.clear();
+        if (addRegularPurchase != null && !addRegularPurchase.isEmpty()) {
+            cart.getItems().addAll(addRegularPurchase);
+            addRegularPurchase.clear();
         }
     }
 
     public static void clearAddCart() {
-        addPurchase.clear();
+        addRegularPurchase.clear();
     }
 }
