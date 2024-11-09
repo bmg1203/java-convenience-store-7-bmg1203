@@ -27,7 +27,7 @@ public class OutputView {
             }
         }
         String output = String.join(",\n", productStrings);
-        System.out.println(output);
+        System.out.println(output + "\n");
     }
 
     private String getPromotionProductString(String name, Map<String, Product> promotionProducts) {
