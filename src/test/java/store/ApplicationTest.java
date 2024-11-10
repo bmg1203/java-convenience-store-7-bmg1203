@@ -159,6 +159,17 @@ class ApplicationTest extends NsTest {
     }
 
     //추가 주문시 재고 관련 테스트
+    @Test
+    void 추가_주문시_재고_감소_출력() {
+        assertSimpleTest(() -> {
+            run("[콜라-3],[사이다-3],[오렌지주스-2]", "N", "Y");
+            assertThat(output()).contains(
+                    "- 콜라 1,000원 7개 탄산2+1",
+                    "- 사이다 1,000원 5개 탄산2+1",
+                    "- 오렌지주스 1,800원 7개 MD추천상품"
+            );
+        });
+    }
 
     @Override
     public void runMain() {
