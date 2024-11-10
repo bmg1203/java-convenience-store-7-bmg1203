@@ -9,10 +9,13 @@ import java.time.LocalDate;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import store.constants.ErrorMessage;
+import store.constants.StringConstants;
 
 import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
+import static store.constants.StringConstants.NO;
+import static store.constants.StringConstants.YES;
 
 class ApplicationTest extends NsTest {
 
@@ -24,7 +27,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 파일에_있는_상품_목록_출력() {
         assertSimpleTest(() -> {
-            run("[물-1]", "N", "N");
+            run("[물-1]", NO.getString(), NO.getString());
             assertThat(output()).contains(
                 "- 콜라 1,000원 10개 탄산2+1",
                 "- 콜라 1,000원 10개",
@@ -51,7 +54,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 여러_개의_일반_상품_구매() {
         assertSimpleTest(() -> {
-            run("[비타민워터-3],[물-2],[정식도시락-2]", "N", "N");
+            run("[비타민워터-3],[물-2],[정식도시락-2]", NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", "")).contains("내실돈18,300");
         });
     }
@@ -59,7 +62,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 기간에_해당하지_않는_프로모션_적용() {
         assertNowTest(() -> {
-            run("[감자칩-2]", "N", "N");
+            run("[감자칩-2]", NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", "")).contains("내실돈3,000");
         }, LocalDate.of(2024, 2, 1).atStartOfDay());
     }
@@ -67,7 +70,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 예외_테스트() {
         assertSimpleTest(() -> {
-            runException("[컵라면-12]", "N", "N");
+            runException("[컵라면-12]", NO.getString(), NO.getString());
             assertThat(output()).contains(ErrorMessage.NOT_ENOUGH_QUANTITY_ERROR.getMessage());
         });
     }
@@ -79,7 +82,7 @@ class ApplicationTest extends NsTest {
         //when, then
         assertSimpleTest(() -> {
             try {
-                runException(input, "N", "N");
+                runException(input, NO.getString(), NO.getString());
                 assertThat(output()).contains(ErrorMessage.PRODUCT_BUY_FORM_ERROR.getMessage());
             } finally {
                 Console.close();
@@ -91,7 +94,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_조건_충족_혜택_적용_테스트() {
         assertSimpleTest(() -> {
-            runException("[콜라-3]", "N", "N");
+            runException("[콜라-3]", NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", "")).contains("내실돈2,000");
         });
     }
@@ -99,7 +102,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_조건_미충족_혜택_미적용_테스트() {
         assertSimpleTest(() -> {
-            runException("[콜라-1]", "N", "N", "N");
+            runException("[콜라-1]", NO.getString(), NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", "")).contains("내실돈1,000");
         });
     }
@@ -107,7 +110,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_기간_만료_혜택_미적용_테스트() {
         assertNowTest(() -> {
-            run("[감자칩-2]", "N", "N");
+            run("[감자칩-2]", NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", "")).contains("내실돈3,000");
         }, LocalDate.of(2024, 12, 31).atStartOfDay());
     }
@@ -115,7 +118,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_재고_부족시_일부_일반_재고_처리_테스트() {
         assertSimpleTest(() -> {
-            run("[콜라-15]", "Y", "N", "N");  // 프로모션 10개, 일반 10개
+            run("[콜라-15]", YES.getString(), NO.getString(), NO.getString());  // 프로모션 10개, 일반 10개
             assertThat(output().replaceAll("\\s", ""))
                     .contains("내실돈12,000");  // 프로모션 9개, 6개 일반 가격
         });
@@ -124,7 +127,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_조건_미충족시_개수_추가_허용_테스트() {
         assertSimpleTest(() -> {
-            run("[사이다-2]", "Y", "N", "N");
+            run("[사이다-2]", YES.getString(), NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", ""))
                     .contains("내실돈2,000");  // 프로모션 적용됨
         });
@@ -133,7 +136,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_조건_미충족시_추가_거부_테스트() {
         assertSimpleTest(() -> {
-            run("[사이다-2]", "N", "N", "N");
+            run("[사이다-2]", NO.getString(), NO.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", ""))
                     .contains("내실돈2,000");  // 정상가로 2개 구매
         });
@@ -143,7 +146,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 멤버십_할인_적용_테스트() {
         assertSimpleTest(() -> {
-            run("[비타민워터-2]", "Y", "N");
+            run("[비타민워터-2]", YES.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", ""))
                     .contains("내실돈2,100");
         });
@@ -152,7 +155,7 @@ class ApplicationTest extends NsTest {
     @Test
     void 프로모션_멤버십_할인_겹침_테스트() {
         assertSimpleTest(() -> {
-            run("[감자칩-2]", "Y", "N");
+            run("[감자칩-2]", YES.getString(), NO.getString());
             assertThat(output().replaceAll("\\s", ""))
                     .contains("내실돈1,500"); // 반짝할인과 멤버십 할인을 모두 적용한 가격 확인
         });
@@ -162,7 +165,8 @@ class ApplicationTest extends NsTest {
     @Test
     void 추가_주문시_재고_감소_출력() {
         assertSimpleTest(() -> {
-            run("[콜라-3],[사이다-3],[오렌지주스-2]", "N", "Y");
+            run("[콜라-3],[사이다-3],[오렌지주스-2]", NO.getString(), YES.getString(),
+                    "[콜라-3]", NO.getString(), NO.getString());
             assertThat(output()).contains(
                     "- 콜라 1,000원 7개 탄산2+1",
                     "- 사이다 1,000원 5개 탄산2+1",
