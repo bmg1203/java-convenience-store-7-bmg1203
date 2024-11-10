@@ -50,8 +50,8 @@ public class PromotionService {
             }
             if (answer.equals(NO)) {
                 int extraCount = purchase.getQuantity() - promotion.extraCount(purchase.getQuantity());
-                purchase.setQuantity(extraCount);
                 addRegularPurchase.add(new Purchase(purchase.getName(), promotion.extraCount(purchase.getQuantity()), NO_PROMOTION));
+                purchase.setQuantity(extraCount);
             }
         }
     }
