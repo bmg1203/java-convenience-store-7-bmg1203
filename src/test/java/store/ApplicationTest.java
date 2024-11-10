@@ -88,7 +88,56 @@ class ApplicationTest extends NsTest {
     }
 
     //프로모션 관리 관련 테스트
+    @Test
+    void 프로모션_조건_충족_혜택_적용_테스트() {
+        assertSimpleTest(() -> {
+            runException("[콜라-3]", "N", "N");
+            assertThat(output().replaceAll("\\s", "")).contains("내실돈2,000");
+        });
+    }
 
+    @Test
+    void 프로모션_조건_미충족_혜택_미적용_테스트() {
+        assertSimpleTest(() -> {
+            runException("[콜라-1]", "N", "N", "N");
+            assertThat(output().replaceAll("\\s", "")).contains("내실돈1,000");
+        });
+    }
+
+    @Test
+    void 프로모션_기간_만료_혜택_미적용_테스트() {
+        assertNowTest(() -> {
+            run("[감자칩-2]", "N", "N");
+            assertThat(output().replaceAll("\\s", "")).contains("내실돈3,000");
+        }, LocalDate.of(2024, 12, 31).atStartOfDay());
+    }
+
+    @Test
+    void 프로모션_재고_부족시_일부_일반_재고_처리_테스트() {
+        assertSimpleTest(() -> {
+            run("[콜라-15]", "Y", "N", "N");  // 프로모션 10개, 일반 10개
+            assertThat(output().replaceAll("\\s", ""))
+                    .contains("내실돈12,000");  // 프로모션 9개, 6개 일반 가격
+        });
+    }
+
+    @Test
+    void 프로모션_조건_미충족시_개수_추가_허용_테스트() {
+        assertSimpleTest(() -> {
+            run("[사이다-2]", "Y", "N", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .contains("내실돈2,000");  // 프로모션 적용됨
+        });
+    }
+
+    @Test
+    void 프로모션_조건_미충족시_추가_거부_테스트() {
+        assertSimpleTest(() -> {
+            run("[사이다-2]", "N", "N", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .contains("내실돈2,000");  // 정상가로 2개 구매
+        });
+    }
 
     //가격 및 할인 관련 테스트
 
