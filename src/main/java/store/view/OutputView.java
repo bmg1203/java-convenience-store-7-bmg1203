@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import store.constants.OutputPrompts;
+import store.constants.StringConstants;
 import store.domain.Cart;
 import store.domain.Product;
 import store.domain.Products;
@@ -62,7 +63,7 @@ public class OutputView {
     private static void printPromotionGetProducts(Cart cart, Promotions promotions) {
         System.out.println(OutputPrompts.RECEIPT_PROMOTION_HEADER.getPrompts());
         for (Purchase purchase : cart.getItems()) {
-            if (!purchase.getPromotion().equals("null") && purchase.getQuantity() != 0) {
+            if (!purchase.getPromotion().equals(StringConstants.NO_PROMOTION.getString()) && purchase.getQuantity() != 0) {
                 Promotion promotion = promotions.getPromotions().get(purchase.getPromotion());
                 System.out.printf(OutputPrompts.RECEIPT_PROMOTION_PRODUCTS.getPrompts(), purchase.getName(),
                         promotion.freeCount(purchase.getQuantity()));

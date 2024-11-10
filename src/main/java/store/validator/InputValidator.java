@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import store.constants.ErrorMessage;
+import store.constants.StringConstants;
 import store.domain.Cart;
 import store.domain.Products;
 import store.domain.Purchase;
+import store.utils.Split;
 
 public class InputValidator {
 
@@ -14,7 +16,7 @@ public class InputValidator {
     private static final String VALID_PATTERN = "\\[[a-zA-Z가-힣0-9]+-[0-9]+\\]";
 
     public static void validateInput(String input) {
-        String[] items = input.split(",");
+        List<String> items = Split.commaSpliter(input);
 
         for (String item : items) {
             if (!item.matches(VALID_PATTERN)) {
@@ -51,8 +53,8 @@ public class InputValidator {
     }
 
     public static void validateAnswer(String answer) {
-        answer.toUpperCase();
-        if (!answer.equals("Y") && !answer.equals("N")) {
+        answer = answer.toUpperCase();
+        if (!answer.equals(StringConstants.YES.getString()) && !answer.equals(StringConstants.NO.getString())) {
             throw new IllegalArgumentException(ErrorMessage.ETC_INPUT_ERROR.getMessage());
         }
     }

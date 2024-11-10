@@ -2,6 +2,7 @@ package store.domain;
 
 import store.constants.ErrorMessage;
 import store.constants.NumberConstants;
+import store.constants.StringConstants;
 import store.utils.Parser;
 
 public class Product {
@@ -49,7 +50,7 @@ public class Product {
     }
 
     public boolean hasPromotion() {
-        return promotion != null && !promotion.equals("null");
+        return promotion != null && !promotion.equals(StringConstants.NO_PROMOTION.getString());
     }
 
     public boolean hasQuantity(int quantity) {

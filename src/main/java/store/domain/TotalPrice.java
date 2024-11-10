@@ -1,6 +1,7 @@
 package store.domain;
 
 import java.util.List;
+import store.constants.StringConstants;
 
 public class TotalPrice {
 
@@ -48,7 +49,7 @@ public class TotalPrice {
     public int getPromotionSalePrice(List<Purchase> purchases, Promotions promotions, Products products) {
         int promotionPrice = 0;
         for (Purchase purchase : purchases) {
-            if (purchase.getPromotion().equals("null")) {
+            if (purchase.getPromotion().equals(StringConstants.NO_PROMOTION.getString())) {
                 continue;
             }
             Promotion promotion = promotions.getPromotions().get(purchase.getPromotion());
@@ -71,7 +72,7 @@ public class TotalPrice {
     private static int getPromotionPrice(List<Purchase> purchases, Products products) {
         int promotionPrice = 0;
         for (Purchase purchase : purchases) {
-            if (purchase.getPromotion() != "null") {
+            if (!purchase.getPromotion().equals(StringConstants.NO_PROMOTION.getString())) {
                 Product product = products.getRegularProducts().get(purchase.getName());
                 promotionPrice += purchase.getQuantity() * product.getPrice();
             }

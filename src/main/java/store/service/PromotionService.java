@@ -2,6 +2,7 @@ package store.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import store.constants.StringConstants;
 import store.domain.Cart;
 import store.domain.Product;
 import store.domain.Products;
@@ -12,9 +13,6 @@ import store.view.InputView;
 
 public class PromotionService {
 
-    private static final String NO_PROMOTION = "null";
-    private static final String YES = "Y";
-    private static final String NO = "N";
     private final InputView inputView;
     private static final List<Purchase> addRegularPurchase = new ArrayList<>();
 
@@ -33,7 +31,7 @@ public class PromotionService {
     public void promotionsAll(Purchase purchase, Promotions promotions, Products products, Cart cart) {
         Promotion promotion = promotions.getPromotions().get(purchase.getPromotion());
         if (promotion == null || !promotion.isActive()) {
-            purchase.setPromotion(NO_PROMOTION);
+            purchase.setPromotion(StringConstants.NO_PROMOTION.getString());
             return;
         }
 
@@ -44,13 +42,13 @@ public class PromotionService {
     private void adjustPromotionCount(Purchase purchase, Promotion promotion, Cart cart) {
         if (!promotion.correctCount(purchase.getQuantity())) {
             String answer = inputView.checkPromotionCountAdd(purchase);
-            if (answer.equals(YES)) {
+            if (answer.equals(StringConstants.YES.getString())) {
                 int more = promotion.addCount(purchase.getQuantity());
                 purchase.setQuantity(more);
             }
-            if (answer.equals(NO)) {
+            if (answer.equals(StringConstants.NO.getString())) {
                 int extraCount = purchase.getQuantity() - promotion.extraCount(purchase.getQuantity());
-                addRegularPurchase.add(new Purchase(purchase.getName(), promotion.extraCount(purchase.getQuantity()), NO_PROMOTION));
+                addRegularPurchase.add(new Purchase(purchase.getName(), promotion.extraCount(purchase.getQuantity()), StringConstants.NO_PROMOTION.getString()));
                 purchase.setQuantity(extraCount);
             }
         }
@@ -69,17 +67,17 @@ public class PromotionService {
                                                         int extraCount) {
         int promotionQuantity = purchase.getQuantity() - extraCount;
 
-        if (answer.equals(YES)) {
+        if (answer.equals(StringConstants.YES.getString())) {
             purchase.setQuantity(promotionQuantity);
-            addRegularPurchase.add(new Purchase(purchase.getName(), extraCount, NO_PROMOTION));
+            addRegularPurchase.add(new Purchase(purchase.getName(), extraCount, StringConstants.NO_PROMOTION.getString()));
         }
-        if (answer.equals(NO)) {
+        if (answer.equals(StringConstants.NO.getString())) {
             purchase.setQuantity(promotionQuantity);
         }
     }
 
     public void applyAddPurchaseToCart(Cart cart) {
-        if (addRegularPurchase != null && !addRegularPurchase.isEmpty()) {
+        if (!addRegularPurchase.isEmpty()) {
             cart.getItems().addAll(addRegularPurchase);
             addRegularPurchase.clear();
         }

@@ -2,6 +2,7 @@ package store.domain;
 
 import store.constants.ErrorMessage;
 import store.constants.NumberConstants;
+import store.constants.StringConstants;
 import store.utils.Parser;
 
 public class Purchase {
@@ -13,7 +14,7 @@ public class Purchase {
     public Purchase(String name, String quantity) {
         this.name = name;
         this.quantity = validateQuantity(Parser.parseNumberToInt(quantity));
-        this.promotion = "null";
+        this.promotion = StringConstants.NO_PROMOTION.getString();
     }
 
     public Purchase(String name, int quantity, String promotion) {

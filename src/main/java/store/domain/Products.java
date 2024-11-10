@@ -5,11 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import store.constants.ErrorMessage;
+import store.constants.StringConstants;
 
 public class Products {
 
-    private static final String ZERO_STR = "0";
-    private static final String NO_PROMOTION = "null";
     private List<String> productNames = new ArrayList<>();
     private final Map<String, Product> promotionProducts = new LinkedHashMap<>();
     private Map<String, Product> regularProducts = new LinkedHashMap<>();
@@ -49,7 +48,8 @@ public class Products {
         for (String productName : productNames) {
             if (!regularProducts.containsKey(productName)) {
                 Product product = promotionProducts.get(productName);
-                regularProducts.put(productName, new Product(productName, String.valueOf(product.getPrice()), ZERO_STR, NO_PROMOTION));
+                regularProducts.put(productName, new Product(productName, String.valueOf(product.getPrice()),
+                        StringConstants.ZERO_STRING.getString(), StringConstants.NO_PROMOTION.getString()));
             }
         }
     }

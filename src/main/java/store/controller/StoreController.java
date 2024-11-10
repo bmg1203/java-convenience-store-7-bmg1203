@@ -3,6 +3,7 @@ package store.controller;
 import camp.nextstep.edu.missionutils.Console;
 import java.io.IOException;
 import java.util.Map;
+import store.constants.StringConstants;
 import store.domain.Cart;
 import store.domain.Products;
 import store.domain.Promotions;
@@ -74,7 +75,7 @@ public class StoreController {
     public void checkProducts() {
         for (Purchase purchase : cart.getItems()) {
             promotionService.setPromotion(purchase, products);
-            if (!purchase.getPromotion().equals("null")) {
+            if (!purchase.getPromotion().equals(StringConstants.NO_PROMOTION.getString())) {
                 promotionService.promotionsAll(purchase, promotions, products, cart);
             }
         }
