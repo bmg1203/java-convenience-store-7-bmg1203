@@ -140,7 +140,23 @@ class ApplicationTest extends NsTest {
     }
 
     //가격 및 할인 관련 테스트
+    @Test
+    void 멤버십_할인_적용_테스트() {
+        assertSimpleTest(() -> {
+            run("[비타민워터-2]", "Y", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .contains("내실돈2,100");
+        });
+    }
 
+    @Test
+    void 프로모션_멤버십_할인_겹침_테스트() {
+        assertSimpleTest(() -> {
+            run("[감자칩-2]", "Y", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .contains("내실돈1,500"); // 반짝할인과 멤버십 할인을 모두 적용한 가격 확인
+        });
+    }
 
     //추가 주문시 재고 관련 테스트
 
