@@ -92,8 +92,8 @@ public class StoreController {
         totalPrice = new TotalPrice(cart.getItems(), products);
         totalPrice.setPromotionPrice(totalPrice.getPromotionSalePrice(cart.getItems(), promotions, products));
         String answer = inputView.checkMemberShipSale();
-        if (answer.equals("Y")) {
-            totalPrice.setMemberShipPrice(totalPrice.getMembershipSalePrice(cart.getItems(), promotions, products));
+        if (answer.equals(StringConstants.YES.getString())) {
+            totalPrice.setMemberShipPrice(totalPrice.getMembershipSalePrice(cart.getItems(), products));
         }
         outputView.printReceipt(cart, products, promotions, items, totalPrice);
     }
