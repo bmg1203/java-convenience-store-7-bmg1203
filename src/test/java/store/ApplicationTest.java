@@ -1,15 +1,26 @@
 package store;
 
+import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.test.NsTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import store.constants.ErrorMessage;
 
 import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest extends NsTest {
+
+    @AfterEach
+    void consoleClose() {
+        Console.close();
+    }
+
     @Test
     void 파일에_있는_상품_목록_출력() {
         assertSimpleTest(() -> {
@@ -57,9 +68,32 @@ class ApplicationTest extends NsTest {
     void 예외_테스트() {
         assertSimpleTest(() -> {
             runException("[컵라면-12]", "N", "N");
-            assertThat(output()).contains("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+            assertThat(output()).contains(ErrorMessage.NOT_ENOUGH_QUANTITY_ERROR.getMessage());
         });
     }
+
+    //구매항목 관련 테스트
+    @ParameterizedTest
+    @ValueSource(strings = {"콜라-5", "[콜라-5],[콜라-5]", "[콜라,5]", "[한우-2]", "[콜라-100]"})
+    void 구매항목_입력_예외_테스트(String input) {
+        //when, then
+        assertSimpleTest(() -> {
+            try {
+                runException(input, "N", "N");
+                assertThat(output()).contains(ErrorMessage.PRODUCT_BUY_FORM_ERROR.getMessage());
+            } finally {
+                Console.close();
+            }
+        });
+    }
+
+    //프로모션 관리 관련 테스트
+
+
+    //가격 및 할인 관련 테스트
+
+
+    //추가 주문시 재고 관련 테스트
 
     @Override
     public void runMain() {
