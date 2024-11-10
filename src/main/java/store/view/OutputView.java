@@ -45,26 +45,40 @@ public class OutputView {
     }
 
     public void printReceipt(Cart cart, Products products, Promotions promotions, Map<String, Purchase> items, TotalPrice totalPrice) {
+        printPurchaseProducts(products, items);
+        printPromotionGetProducts(cart, promotions);
+        printTotalPrice(totalPrice);
+    }
+
+    private static void printPurchaseProducts(Products products, Map<String, Purchase> items) {
         System.out.println(OutputPrompts.RECEIPT_HEADER.getPrompts());
         for (Purchase purchase : items.values()) {
             int price = products.getRegularProducts().get(purchase.getName()).getPrice();
             System.out.printf(OutputPrompts.RECEIPT_PRODUCTS.getPrompts(), purchase.getName(), purchase.getQuantity(),
                     ConvertFormater.moneyFormat(price * purchase.getQuantity()));
         }
+    }
 
+    private static void printPromotionGetProducts(Cart cart, Promotions promotions) {
         System.out.println(OutputPrompts.RECEIPT_PROMOTION_HEADER.getPrompts());
         for (Purchase purchase : cart.getItems()) {
-            if (!purchase.getPromotion().equals("null")) {
+            if (!purchase.getPromotion().equals("null") && purchase.getQuantity() != 0) {
                 Promotion promotion = promotions.getPromotions().get(purchase.getPromotion());
                 System.out.printf(OutputPrompts.RECEIPT_PROMOTION_PRODUCTS.getPrompts(), purchase.getName(),
                         promotion.freeCount(purchase.getQuantity()));
             }
         }
+    }
 
+    private static void printTotalPrice(TotalPrice totalPrice) {
         System.out.println(OutputPrompts.RECEIPT_TOTAL_PRICE_HEADER.getPrompts());
-        System.out.printf(OutputPrompts.RECEIPT_TOTAL_PRICE.getPrompts(), totalPrice.getTotalCount(), ConvertFormater.moneyFormat(totalPrice.getTotalPrice()));
+        System.out.printf(OutputPrompts.RECEIPT_TOTAL_PRICE.getPrompts(), totalPrice.getTotalCount(), ConvertFormater.moneyFormat(
+                totalPrice.getTotalPrice()));
         System.out.printf(OutputPrompts.RECEIPT_PROMOTION_DISCOUNT.getPrompts(), ConvertFormater.moneyFormat(totalPrice.getPromotionPrice()));
-        System.out.printf(OutputPrompts.RECEIPT_MEMBERSHIP_DISCOUNT.getPrompts(), ConvertFormater.moneyFormat((int)totalPrice.getMemberShipPrice()));
-        System.out.printf(OutputPrompts.RECEIPT_FINAL_PRICE.getPrompts(), ConvertFormater.moneyFormat(totalPrice.getTotalPrice() - totalPrice.getPromotionPrice() - (int)totalPrice.getMemberShipPrice()));
+        System.out.printf(OutputPrompts.RECEIPT_MEMBERSHIP_DISCOUNT.getPrompts(), ConvertFormater.moneyFormat((int) totalPrice.getMemberShipPrice()));
+        System.out.printf(OutputPrompts.RECEIPT_FINAL_PRICE.getPrompts(),
+                ConvertFormater.moneyFormat(totalPrice.getTotalPrice()
+                        - totalPrice.getPromotionPrice()
+                        - (int) totalPrice.getMemberShipPrice()));
     }
 }
