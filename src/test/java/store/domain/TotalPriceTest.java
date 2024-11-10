@@ -30,8 +30,8 @@ class TotalPriceTest {
         promotions = new Promotions(promotionList);
 
         purchases = new ArrayList<>();
-        purchases.add(new Purchase("콜라", 6, "탄산2+1"));  // Should qualify for promotion (6 -> 4+2)
-        purchases.add(new Purchase("사이다", "4"));            // Regular purchase
+        purchases.add(new Purchase("콜라", 6, "탄산2+1"));
+        purchases.add(new Purchase("사이다", "4"));
 
         totalPrice = new TotalPrice(purchases, products);
     }
@@ -72,8 +72,27 @@ class TotalPriceTest {
         int calculatedMembershipPrice = (int) totalPrice.getMembershipSalePrice(purchases, products);
 
         // then
-        // 총 가격 14200 - 프로모션 할인 3000 = 11200 -> 멤버십 할인 적용 시 최대 8000원
-        assertThat(calculatedMembershipPrice).isEqualTo(3360);
+        // 총 가격 14200 - 프로모션 할인 9000 = 5200 -> 멤버십 할인 적용 시 최대 8000원
+        assertThat(calculatedMembershipPrice).isEqualTo(1560);
+    }
+
+    @Test
+    void 멤버십_할인_최대_금액_테스트() {
+        // given
+        List<Product> products = new ArrayList<>();
+        products.add(new Product("콜라", "10000", "10", "null"));
+        Products curProducts = new Products(products);
+
+        List<Purchase> memberPurchase = new ArrayList<>();
+        memberPurchase.add(new Purchase("콜라", "9"));
+
+        TotalPrice totalPrice = new TotalPrice(memberPurchase, curProducts);
+
+        // when
+        int calculatedMembershipPrice = (int) totalPrice.getMembershipSalePrice(memberPurchase, curProducts);
+
+        // then
+        assertThat(calculatedMembershipPrice).isEqualTo(8000);
     }
 
     @Test
