@@ -5,6 +5,7 @@ import store.constants.StringConstants;
 
 public class TotalPrice {
 
+    private static final int MAX_MEMBERSHIP_SALE = 8000;
     private int totalCount = 0;
     private int totalPrice = 0;
     private int promotionPrice = 0;
@@ -63,8 +64,8 @@ public class TotalPrice {
         int afterPromotionSalePrice = totalPrice - getPurchasePromotionPrice(purchases, products);
         double membershipPrice = afterPromotionSalePrice * 0.3;
 
-        if (membershipPrice > 8000) {
-            return 8000;
+        if (membershipPrice > MAX_MEMBERSHIP_SALE) {
+            return MAX_MEMBERSHIP_SALE;
         }
         return membershipPrice;
     }
