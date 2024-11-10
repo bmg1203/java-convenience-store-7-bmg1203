@@ -59,8 +59,8 @@ public class TotalPrice {
         return promotionPrice;
     }
 
-    public double getMembershipSalePrice(List<Purchase> purchases, Promotions promotions, Products products) {
-        int afterPromotionSalePrice = totalPrice - getPromotionSalePrice(purchases, promotions, products);
+    public double getMembershipSalePrice(List<Purchase> purchases, Products products) {
+        int afterPromotionSalePrice = totalPrice - getPurchasePromotionPrice(purchases, products);
         double membershipPrice = afterPromotionSalePrice * 0.3;
 
         if (membershipPrice > 8000) {
@@ -69,7 +69,7 @@ public class TotalPrice {
         return membershipPrice;
     }
 
-    private static int getPromotionPrice(List<Purchase> purchases, Products products) {
+    private static int getPurchasePromotionPrice(List<Purchase> purchases, Products products) {
         int promotionPrice = 0;
         for (Purchase purchase : purchases) {
             if (!purchase.getPromotion().equals(StringConstants.NO_PROMOTION.getString())) {
