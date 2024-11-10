@@ -37,11 +37,11 @@ public class PromotionService {
             return;
         }
 
-        adjustPromotionCount(purchase, promotion);
+        adjustPromotionCount(purchase, promotion, cart);
         handleInsufficientStock(purchase, cart, products, promotion);
     }
 
-    private void adjustPromotionCount(Purchase purchase, Promotion promotion) {
+    private void adjustPromotionCount(Purchase purchase, Promotion promotion, Cart cart) {
         if (!promotion.correctCount(purchase.getQuantity())) {
             String answer = inputView.checkPromotionCountAdd(purchase);
             if (answer.equals(YES)) {
@@ -49,7 +49,9 @@ public class PromotionService {
                 purchase.setQuantity(more);
             }
             if (answer.equals(NO)) {
-                purchase.setQuantity(purchase.getQuantity() - promotion.extraCount(purchase.getQuantity()));
+                int extraCount = purchase.getQuantity() - promotion.extraCount(purchase.getQuantity());
+                purchase.setQuantity(purchase.getQuantity() - extraCount);
+                addRegularPurchase.add(new Purchase(purchase.getName(), extraCount, NO_PROMOTION));
             }
         }
     }
@@ -69,7 +71,7 @@ public class PromotionService {
 
         if (answer.equals(YES)) {
             purchase.setQuantity(promotionQuantity);
-            addRegularPurchase.add(new Purchase(purchase.getName(), extraCount, "null"));
+            addRegularPurchase.add(new Purchase(purchase.getName(), extraCount, NO_PROMOTION));
         }
         if (answer.equals(NO)) {
             purchase.setQuantity(promotionQuantity);
