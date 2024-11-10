@@ -13,12 +13,8 @@ import store.view.InputView;
 
 public class PromotionService {
 
-    private final InputView inputView;
+    private final InputView inputView = new InputView();
     private static final List<Purchase> addRegularPurchase = new ArrayList<>();
-
-    public PromotionService(InputView inputView) {
-        this.inputView = inputView;
-    }
 
     //프로모션 있으면 set
     public void setPromotion(Purchase purchase, Products products) {

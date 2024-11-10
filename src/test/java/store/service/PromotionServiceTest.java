@@ -72,7 +72,7 @@ class PromotionServiceTest {
         Purchase purchase = new Purchase("콜라", "3");
         purchase.setPromotion("탄산2+1");
         setInputStream(NO + "\n" + YES + "\n" + NO + "\n"); // 추가 구매 X, 프로모션 부족 시 정상 구매 확인 Y
-        PromotionService promotionService = new PromotionService(new InputView());
+        PromotionService promotionService = new PromotionService();
 
         // when
         promotionService.promotionsAll(purchase, promotions, products, cart);
@@ -90,7 +90,7 @@ class PromotionServiceTest {
         setInputStream(YES + "\n" + YES + "\n" + NO + "\n"); // 추가 구매 X, 프로모션 부족 시 정상 구매 확인 Y
         cart.getItems().add(purchase);
 
-        PromotionService promotionService = new PromotionService(new InputView());
+        PromotionService promotionService = new PromotionService();
 
         // when
         promotionService.promotionsAll(purchase, promotions, products, cart);
@@ -116,7 +116,7 @@ class PromotionServiceTest {
         purchase.setPromotion("탄산2+1");
         setInputStream(YES + "\n" + NO + "\n" + YES + "\n"); // 추가 구매 Y로 답변
 
-        PromotionService promotionService = new PromotionService(new InputView());
+        PromotionService promotionService = new PromotionService();
 
         // when
         promotionService.promotionsAll(purchase, promotions, products, cart);
@@ -134,7 +134,7 @@ class PromotionServiceTest {
         purchase.setPromotion("탄산2+1");
         setInputStream(NO + "\n" + NO + "\n" + NO + "\n"); // 추가 구매 N로 답변
 
-        PromotionService promotionService = new PromotionService(new InputView());
+        PromotionService promotionService = new PromotionService();
 
         // when
         promotionService.promotionsAll(purchase, promotions, products, cart);

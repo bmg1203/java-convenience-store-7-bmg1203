@@ -3,6 +3,7 @@ package store.controller;
 import camp.nextstep.edu.missionutils.Console;
 import java.io.IOException;
 import java.util.Map;
+import store.constants.ErrorMessage;
 import store.constants.StringConstants;
 import store.domain.Cart;
 import store.domain.Products;
@@ -22,37 +23,16 @@ public class StoreController {
     private Cart cart;
     private TotalPrice totalPrice;
 
-    private final InitService initService;
-    private final PromotionService promotionService;
-    private final CartService cartService;
-    private final InputView inputView;
-    private final OutputView outputView;
+    private final InitService initService = new InitService();
+    private final PromotionService promotionService = new PromotionService();
+    private final CartService cartService = new CartService();
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
 
-    public StoreController(InitService initService, PromotionService promotionService, CartService cartService,
-                           InputView inputView, OutputView outputView) {
-        this.initService = initService;
-        this.promotionService = promotionService;
-        this.cartService = cartService;
-        this.inputView = inputView;
-        this.outputView = outputView;
-    }
-
-    // 정적 메소드로 전체 실행 흐름을 관리
-    public static void runStore() throws IOException {
-        InitService initService = new InitService();
-        PromotionService promotionService = new PromotionService(new InputView());
-        CartService cartService = new CartService();
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-
-        StoreController storeController = new StoreController(initService, promotionService, cartService, inputView, outputView);
-        storeController.run();
-    }
-
-    public void run() throws IOException {
-        String next = "Y";
+    public void run() {
+        String next = StringConstants.YES.getString();
         initStock();
-        while(next.equals("Y")) {
+        while(next.equals(StringConstants.YES.getString())) {
             start();
             checkProducts();
             result();
@@ -62,9 +42,13 @@ public class StoreController {
         Console.close();
     }
 
-    public void initStock() throws IOException {
-        products = initService.saveInitProducts();
-        promotions = initService.saveInitPromotions();
+    public void initStock() {
+        try {
+            products = initService.saveInitProducts();
+            promotions = initService.saveInitPromotions();
+        } catch (IOException e) {
+            System.out.println(ErrorMessage.SYSTEM_ERROR.getMessage());
+        }
     }
 
     public void start() {
