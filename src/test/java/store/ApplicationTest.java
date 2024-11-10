@@ -90,6 +90,15 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    //여부 확인 관련 테스트
+    @Test
+    void 여부_확인_예외_테스트() {
+        assertSimpleTest(() -> {
+            runException("[콜라-5]", "ㅇ", NO.getString());
+            assertThat(output()).contains(ErrorMessage.ETC_INPUT_ERROR.getMessage());
+        });
+    }
+
     //프로모션 관리 관련 테스트
     @Test
     void 프로모션_조건_충족_혜택_적용_테스트() {
