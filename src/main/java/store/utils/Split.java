@@ -10,6 +10,7 @@ public class Split {
     private static final String HYPHEN = "-";
 
     public static List<String> commaSpliter(String str) {
+        str = str.replaceAll(" ", "");
         return List.of(str.split(COMMA));
     }
 
