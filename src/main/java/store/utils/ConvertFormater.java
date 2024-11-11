@@ -9,14 +9,13 @@ public class ConvertFormater {
 
     public static String moneyFormat(int money) {
         DecimalFormat df = new DecimalFormat("###,###");
-        String formatMoney = df.format(money);
-        return formatMoney;
+        return df.format(money);
     }
 
     public static String quantityFormat(int quantity) {
         if (quantity == 0) {
             return ZERO_QUANTITY;
         }
-        return String.valueOf(quantity) + COUNT_UNIT;
+        return quantity + COUNT_UNIT;
     }
 }
