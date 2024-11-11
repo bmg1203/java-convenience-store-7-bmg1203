@@ -16,7 +16,6 @@ public class PromotionService {
     private final InputView inputView = new InputView();
     private static final List<Purchase> addRegularPurchase = new ArrayList<>();
 
-    //프로모션 있으면 set
     public void setPromotion(Purchase purchase, Products products) {
         Product product = products.getPromotionProducts().get(purchase.getName());
         if (product != null) {
@@ -38,15 +37,19 @@ public class PromotionService {
     private void adjustPromotionCount(Purchase purchase, Promotion promotion, Cart cart) {
         if (!promotion.correctCount(purchase.getQuantity())) {
             String answer = inputView.checkPromotionCountAdd(purchase);
-            if (answer.equals(StringConstants.YES.getString())) {
-                int more = promotion.addCount(purchase.getQuantity());
-                purchase.setQuantity(more);
-            }
-            if (answer.equals(StringConstants.NO.getString())) {
-                int extraCount = purchase.getQuantity() - promotion.extraCount(purchase.getQuantity());
-                addRegularPurchase.add(new Purchase(purchase.getName(), promotion.extraCount(purchase.getQuantity()), StringConstants.NO_PROMOTION.getString()));
-                purchase.setQuantity(extraCount);
-            }
+            adjustPurchaseByAnswer(purchase, promotion, answer);
+        }
+    }
+
+    private static void adjustPurchaseByAnswer(Purchase purchase, Promotion promotion, String answer) {
+        if (answer.equals(StringConstants.YES.getString())) {
+            int more = promotion.addCount(purchase.getQuantity());
+            purchase.setQuantity(more);
+        }
+        if (answer.equals(StringConstants.NO.getString())) {
+            int extraCount = purchase.getQuantity() - promotion.extraCount(purchase.getQuantity());
+            addRegularPurchase.add(new Purchase(purchase.getName(), promotion.extraCount(purchase.getQuantity()), StringConstants.NO_PROMOTION.getString()));
+            purchase.setQuantity(extraCount);
         }
     }
 
