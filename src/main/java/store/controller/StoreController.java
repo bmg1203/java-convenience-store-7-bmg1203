@@ -21,7 +21,6 @@ public class StoreController {
     private Products products;
     private Promotions promotions;
     private Cart cart;
-    private TotalPrice totalPrice;
 
     private final InitService initService = new InitService();
     private final PromotionService promotionService = new PromotionService();
@@ -42,7 +41,7 @@ public class StoreController {
         Console.close();
     }
 
-    public void initStock() {
+    private void initStock() {
         try {
             products = initService.saveInitProducts();
             promotions = initService.saveInitPromotions();
@@ -51,12 +50,12 @@ public class StoreController {
         }
     }
 
-    public void start() {
+    private void start() {
         outputView.productsOutput(this.products);
         cart = inputView.readItem(products);
     }
 
-    public void checkProducts() {
+    private void checkProducts() {
         for (Purchase purchase : cart.getItems()) {
             promotionService.setPromotion(purchase, products);
             if (!purchase.getPromotion().equals(StringConstants.NO_PROMOTION.getString())) {
@@ -70,12 +69,13 @@ public class StoreController {
         promotionService.applyAddPurchaseToCart(cart);
     }
 
-    public void result() {
-        //영수증 출력
+    private void result() {
         Map<String, Purchase> items = cart.mergeItems(cart.getItems());
-        totalPrice = new TotalPrice(cart.getItems(), products);
+        TotalPrice totalPrice = new TotalPrice(cart.getItems(), products);
+
         totalPrice.setPromotionPrice(totalPrice.getPromotionSalePrice(cart.getItems(), promotions, products));
         String answer = inputView.checkMemberShipSale();
+
         if (answer.equals(StringConstants.YES.getString())) {
             totalPrice.setMemberShipPrice(totalPrice.getMembershipSalePrice(cart.getItems(), products));
         }
