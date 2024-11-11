@@ -25,11 +25,11 @@ class PromotionServiceTest {
     private Promotions promotions;
     private Products products;
     private Cart cart;
-    private final InputStream originalIn = System.in;  // 원래 System.in 스트림을 저장
+    private final InputStream originalIn = System.in;
 
     @BeforeEach
     void setUp() {
-        PromotionService.clearAddCart(); // addPurchase 리스트 초기화
+        PromotionService.clearAddCart();
         setProducts();
         setPromotions();
 
