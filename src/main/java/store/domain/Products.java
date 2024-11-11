@@ -11,7 +11,7 @@ public class Products {
 
     private List<String> productNames = new ArrayList<>();
     private final Map<String, Product> promotionProducts = new LinkedHashMap<>();
-    private Map<String, Product> regularProducts = new LinkedHashMap<>();
+    private final Map<String, Product> regularProducts = new LinkedHashMap<>();
 
     public Products(List<Product> allProducts) {
         for (Product product : allProducts) {
